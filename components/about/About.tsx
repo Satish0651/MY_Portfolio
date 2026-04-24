@@ -1,87 +1,131 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Building2, Map, Sparkles } from "lucide-react";
-import { profile, journey } from "@/lib/data";
-import { SectionHeader } from "../ui/SectionHeader";
-import { GlassCard } from "../ui/GlassCard";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowRight, Code2, Star, User } from "lucide-react";
+import { profile, coreExpertise, skillGroups } from "@/lib/data";
 import { Reveal } from "../ui/Reveal";
 
-const iconMap = { Map, Building2, Sparkles };
+function AvatarSK() {
+  return (
+    <div className="relative aspect-square w-28 shrink-0 rounded-full sm:w-32">
+      <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_140deg,#7C3AED,#22D3EE,#10B981,#7C3AED)] p-[2px]">
+        <div className="grid h-full w-full place-items-center rounded-full bg-gradient-to-br from-slate-800 to-slate-900">
+          <span className="font-display text-3xl font-bold text-white">
+            {profile.initials}
+          </span>
+        </div>
+      </div>
+      <div className="absolute -bottom-1 right-1 h-4 w-4 rounded-full border-2 border-white bg-brand-green shadow-sm" />
+    </div>
+  );
+}
+
+function CardHeader({
+  icon,
+  title,
+  tint,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  tint: string;
+}) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span
+        className="grid h-8 w-8 place-items-center rounded-lg"
+        style={{ background: `${tint}15`, color: tint }}
+      >
+        {icon}
+      </span>
+      <h3 className="font-display text-base font-semibold text-ink">{title}</h3>
+    </div>
+  );
+}
 
 export function About() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-120px" });
-
   return (
-    <section id="about" className="relative py-28 sm:py-36">
+    <section id="about" className="relative -mt-10 pb-16">
       <div className="container-x">
-        <SectionHeader
-          eyebrow="About"
-          title="From spatial analyst to"
-          highlight="AI-native GIS engineer"
-          description={profile.summary}
-        />
+        <div className="grid gap-5 md:grid-cols-3">
+          <Reveal delay={0.05}>
+            <div className="card card-hover h-full p-5">
+              <CardHeader
+                icon={<User className="h-4 w-4" />}
+                title="About Me"
+                tint="#6366F1"
+              />
+              <div className="mt-4 flex items-start gap-4">
+                <AvatarSK />
+                <p className="text-sm leading-relaxed text-ink-muted">
+                  {profile.aboutLong}
+                </p>
+              </div>
+              <Link
+                href="#experience"
+                className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-indigo hover:text-brand-purple"
+              >
+                Know More About Me
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+          </Reveal>
 
-        <div ref={ref} className="relative grid gap-6 md:grid-cols-3">
-          <svg
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 md:block"
-            height="2"
-            width="100%"
-            viewBox="0 0 1000 2"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              <linearGradient id="journey-gradient" x1="0" x2="1" y1="0" y2="0">
-                <stop offset="0%" stopColor="#22D3EE" />
-                <stop offset="50%" stopColor="#3B82F6" />
-                <stop offset="100%" stopColor="#8B5CF6" />
-              </linearGradient>
-            </defs>
-            <motion.path
-              d="M 0 1 L 1000 1"
-              stroke="url(#journey-gradient)"
-              strokeWidth="1.5"
-              strokeDasharray="6 6"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={inView ? { pathLength: 1, opacity: 0.7 } : {}}
-              transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </svg>
+          <Reveal delay={0.12}>
+            <div className="card card-hover h-full p-5">
+              <CardHeader
+                icon={<Star className="h-4 w-4" />}
+                title="Core Expertise"
+                tint="#10B981"
+              />
+              <ul className="mt-4 grid grid-cols-1 gap-y-2.5 gap-x-3 sm:grid-cols-2">
+                {coreExpertise.map((item, i) => (
+                  <motion.li
+                    key={item}
+                    initial={{ opacity: 0, x: -6 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.4, delay: 0.05 + i * 0.04 }}
+                    className="flex items-start gap-2 text-sm text-ink"
+                  >
+                    <span className="mt-[6px] grid h-3.5 w-3.5 shrink-0 place-items-center rounded-full bg-brand-green/15">
+                      <span className="h-1.5 w-1.5 rounded-full bg-brand-green" />
+                    </span>
+                    {item}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
 
-          {journey.map((step, i) => {
-            const Icon = iconMap[step.icon as keyof typeof iconMap];
-            const accent = i === 0 ? "cyan" : i === 1 ? "blue" : "purple";
-            return (
-              <Reveal key={step.id} delay={0.1 + i * 0.12}>
-                <GlassCard accent={accent as any} className="h-full">
-                  <div className="mb-4 flex items-center gap-3">
-                    <span
-                      className={
-                        "grid h-11 w-11 place-items-center rounded-xl border border-white/10 " +
-                        (i === 0
-                          ? "bg-neon-cyan/10 text-neon-cyan"
-                          : i === 1
-                            ? "bg-neon-blue/10 text-neon-blue"
-                            : "bg-neon-purple/10 text-neon-purple")
-                      }
-                    >
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <span className="text-xs font-mono uppercase tracking-[0.18em] text-ink-dim">
-                      {step.period}
-                    </span>
+          <Reveal delay={0.2}>
+            <div className="card card-hover h-full p-5">
+              <CardHeader
+                icon={<Code2 className="h-4 w-4" />}
+                title="Technical Skills"
+                tint="#7C3AED"
+              />
+              <div className="mt-4 grid gap-x-5 gap-y-3 sm:grid-cols-2">
+                {skillGroups.map((g) => (
+                  <div key={g.id}>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
+                      {g.title}
+                    </p>
+                    <p className="mt-1 text-[13px] leading-snug text-ink">
+                      {g.items.join(", ")}
+                    </p>
                   </div>
-                  <h3 className="font-display text-xl font-semibold text-ink">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-ink-muted leading-relaxed">{step.desc}</p>
-                </GlassCard>
-              </Reveal>
-            );
-          })}
+                ))}
+              </div>
+              <Link
+                href="#skills"
+                className="group mt-5 inline-flex items-center gap-1 rounded-lg border border-line bg-white px-3 py-1.5 text-sm font-medium text-ink hover:border-brand-indigo/30 hover:text-brand-indigo"
+              >
+                View All Skills
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

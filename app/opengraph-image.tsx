@@ -18,69 +18,64 @@ export default async function OG() {
           justifyContent: "space-between",
           padding: "72px",
           background:
-            "radial-gradient(1200px 600px at 0% 0%, rgba(34,211,238,0.18), transparent 60%), radial-gradient(800px 400px at 100% 100%, rgba(139,92,246,0.22), transparent 60%), #05060A",
-          color: "#E6E8EE",
+            "radial-gradient(1200px 600px at 100% 0%, rgba(99,102,241,0.35), transparent 60%), radial-gradient(800px 400px at 0% 100%, rgba(16,185,129,0.25), transparent 60%), #0B1220",
+          color: "#E2E8F0",
           fontFamily: "Inter, system-ui, sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <div
             style={{
-              width: 48,
-              height: 48,
-              borderRadius: 999,
+              width: 52,
+              height: 52,
+              borderRadius: 14,
               background:
-                "linear-gradient(120deg, #22D3EE 0%, #3B82F6 50%, #8B5CF6 100%)",
+                "linear-gradient(120deg, #7C3AED 0%, #6366F1 100%)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#05060A",
+              color: "#FFFFFF",
               fontWeight: 800,
               fontSize: 22,
             }}
           >
-            S
+            SK
           </div>
-          <div style={{ fontSize: 22, color: "#9aa3b2", display: "flex" }}>
-            satishkumar · portfolio
+          <div style={{ fontSize: 22, color: "#94A3B8", display: "flex" }}>
+            {profile.name} · Portfolio
           </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div
             style={{
-              fontSize: 28,
-              color: "#22D3EE",
+              fontSize: 24,
+              color: "#10B981",
               letterSpacing: 4,
               textTransform: "uppercase",
             }}
           >
-            GIS  ·  AI (RAG)  ·  Presales
+            GIS · AI (RAG) · Presales
           </div>
           <div
             style={{
-              fontSize: 86,
+              fontSize: 82,
               fontWeight: 700,
               lineHeight: 1.04,
               maxWidth: 1000,
               display: "flex",
               flexDirection: "column",
+              color: "#FFFFFF",
             }}
           >
-            <span>Building Intelligent</span>
-            <span
-              style={{
-                background:
-                  "linear-gradient(120deg, #22D3EE, #3B82F6, #8B5CF6)",
-                backgroundClip: "text",
-                color: "transparent",
-              }}
-            >
-              GIS Systems with AI
+            <span>Transforming Location Data</span>
+            <span>
+              into{" "}
+              <span style={{ color: "#10B981" }}>Intelligent Solutions</span>
             </span>
           </div>
-          <div style={{ fontSize: 28, color: "#9aa3b2", maxWidth: 900 }}>
-            Satish Kumar — 8+ years across telecom, smart cities & defense.
+          <div style={{ fontSize: 26, color: "#94A3B8", maxWidth: 900 }}>
+            {profile.name} — 8+ years across telecom, smart cities & enterprise GIS.
           </div>
         </div>
 
@@ -90,10 +85,10 @@ export default async function OG() {
             justifyContent: "space-between",
             alignItems: "center",
             fontSize: 22,
-            color: "#6b7280",
+            color: "#64748B",
           }}
         >
-          <span>satss.kr@gmail.com</span>
+          <span>{profile.email}</span>
           <span>linkedin.com/in/satishkumar-1a01b3a5</span>
         </div>
       </div>

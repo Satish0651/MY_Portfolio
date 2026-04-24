@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { projects, profile } from "@/lib/data";
-import { GradientText } from "@/components/ui/GradientText";
+import { ProjectPreview } from "@/components/projects/ProjectPreview";
 
 type Params = { params: { slug: string } };
 
@@ -29,9 +29,10 @@ export default function ProjectDetail({ params }: Params) {
   if (!project) notFound();
 
   const accentText: Record<string, string> = {
-    cyan: "text-neon-cyan",
-    blue: "text-neon-blue",
-    purple: "text-neon-purple",
+    cyan: "text-brand-cyan",
+    blue: "text-brand-blue",
+    purple: "text-brand-purple",
+    green: "text-brand-green",
   };
 
   return (
@@ -48,7 +49,7 @@ export default function ProjectDetail({ params }: Params) {
         <p
           className={`mb-3 text-xs font-mono uppercase tracking-[0.18em] ${accentText[project.accent]}`}
         >
-          {project.domain}
+          {project.tags[0]} · {project.tags.slice(1, 3).join(" / ")}
         </p>
         <h1 className="font-display text-3xl font-semibold leading-tight text-ink sm:text-5xl">
           {project.title}
@@ -59,44 +60,42 @@ export default function ProjectDetail({ params }: Params) {
           {project.tags.map((t) => (
             <span
               key={t}
-              className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-0.5 text-xs text-ink-muted"
+              className="rounded border border-line bg-white px-2 py-0.5 text-xs font-medium text-ink-muted"
             >
               {t}
             </span>
           ))}
         </div>
 
-        <div className="mt-12 grid gap-6">
-          <article className="rounded-2xl border border-white/10 bg-white/[0.025] p-6">
+        <div className="mt-8">
+          <ProjectPreview kind={project.preview} accent={project.accent} />
+        </div>
+
+        <div className="mt-10 grid gap-6">
+          <article className="card p-6">
             <h2 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
               Problem
             </h2>
             <p className="mt-3 text-ink leading-relaxed">{project.problem}</p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/[0.025] p-6">
+          <article className="card p-6">
             <h2 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
               Solution
             </h2>
             <p className="mt-3 text-ink leading-relaxed">{project.solution}</p>
-            <ul className="mt-5 grid gap-2">
-              {project.highlights.map((h) => (
-                <li key={h} className="flex items-center gap-2 text-sm text-ink">
-                  <CheckCircle2 className={`h-4 w-4 ${accentText[project.accent]}`} />
-                  {h}
-                </li>
-              ))}
-            </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/[0.025] p-6">
+          <article className="card p-6">
             <h2 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
               Impact
             </h2>
             <ul className="mt-3 grid gap-2">
               {project.impact.map((h) => (
-                <li key={h} className="flex items-center gap-2 text-sm text-ink">
-                  <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan ring-2 ring-white/10" />
+                <li key={h} className="flex items-start gap-2 text-sm text-ink">
+                  <CheckCircle2
+                    className={`h-4 w-4 shrink-0 translate-y-0.5 ${accentText[project.accent]}`}
+                  />
                   {h}
                 </li>
               ))}
@@ -104,14 +103,12 @@ export default function ProjectDetail({ params }: Params) {
           </article>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
           <p className="text-sm text-ink-muted">
-            Want a deep dive? <GradientText>Let's talk.</GradientText>
+            Want a deep dive?{" "}
+            <span className="font-semibold text-ink">Let's talk.</span>
           </p>
-          <Link
-            href="/#contact"
-            className="inline-flex items-center gap-1.5 rounded-full bg-neon-gradient px-4 py-2 text-sm font-medium text-bg shadow-glow"
-          >
+          <Link href="/#contact" className="btn-primary">
             Reach out <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>

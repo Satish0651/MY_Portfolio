@@ -1,10 +1,10 @@
 import { Hero } from "@/components/hero/Hero";
 import { About } from "@/components/about/About";
-import { SkillsGrid } from "@/components/skills/SkillsGrid";
 import { Projects } from "@/components/projects/Projects";
+import { StatsBar } from "@/components/stats/StatsBar";
+import { CertsAndTools } from "@/components/certs/CertsAndTools";
+import { SkillsGrid } from "@/components/skills/SkillsGrid";
 import { Timeline } from "@/components/experience/Timeline";
-import { MetricsDashboard } from "@/components/metrics/MetricsDashboard";
-import { PresalesFlow } from "@/components/presales/PresalesFlow";
 import { Contact } from "@/components/contact/Contact";
 
 export default function HomePage() {
@@ -12,11 +12,11 @@ export default function HomePage() {
     <>
       <Hero />
       <About />
-      <SkillsGrid />
       <Projects />
+      <StatsBar />
+      <CertsAndTools />
+      <SkillsGrid />
       <Timeline />
-      <MetricsDashboard />
-      <PresalesFlow />
       <Contact />
     </>
   );

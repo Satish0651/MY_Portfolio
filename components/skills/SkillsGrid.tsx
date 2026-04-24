@@ -1,131 +1,79 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Globe2, Sparkles, Database, Map, Wrench } from "lucide-react";
-import { skills } from "@/lib/data";
-import { SectionHeader } from "../ui/SectionHeader";
-import { GlassCard } from "../ui/GlassCard";
-import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { Code2, Database, Globe2, Map, Sparkles, Wrench } from "lucide-react";
+import { skillGroups } from "@/lib/data";
+import { Reveal } from "../ui/Reveal";
 
-const iconMap = { Globe2, Sparkles, Database, Map, Wrench };
-
-const accentClass: Record<string, string> = {
-  cyan: "text-neon-cyan",
-  blue: "text-neon-blue",
-  purple: "text-neon-purple",
-  pink: "text-neon-pink",
+const iconFor: Record<string, React.ComponentType<{ className?: string }>> = {
+  "gis-platforms": Globe2,
+  databases: Database,
+  "web-gis": Map,
+  "ai-dev": Sparkles,
+  devops: Wrench,
 };
 
-const ringStop: Record<string, string> = {
-  cyan: "#22D3EE",
-  blue: "#3B82F6",
-  purple: "#8B5CF6",
-  pink: "#F472B6",
+const tintFor: Record<string, string> = {
+  "gis-platforms": "#6366F1",
+  databases: "#3B82F6",
+  "web-gis": "#22D3EE",
+  "ai-dev": "#7C3AED",
+  devops: "#10B981",
 };
-
-function ProgressRing({
-  value,
-  accent,
-  inView,
-}: {
-  value: number;
-  accent: string;
-  inView: boolean;
-}) {
-  const r = 22;
-  const c = 2 * Math.PI * r;
-  return (
-    <svg width="56" height="56" viewBox="0 0 56 56" className="shrink-0">
-      <circle cx="28" cy="28" r={r} stroke="rgba(255,255,255,0.08)" strokeWidth="4" fill="none" />
-      <motion.circle
-        cx="28"
-        cy="28"
-        r={r}
-        stroke={ringStop[accent]}
-        strokeWidth="4"
-        fill="none"
-        strokeLinecap="round"
-        transform="rotate(-90 28 28)"
-        strokeDasharray={c}
-        initial={{ strokeDashoffset: c }}
-        animate={inView ? { strokeDashoffset: c * (1 - value / 100) } : {}}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-      />
-      <text
-        x="28"
-        y="32"
-        textAnchor="middle"
-        className="fill-ink"
-        style={{ font: "600 11px Inter, sans-serif" }}
-      >
-        {value}
-      </text>
-    </svg>
-  );
-}
 
 export function SkillsGrid() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="skills" className="relative py-28 sm:py-36">
+    <section id="skills" className="relative py-12 sm:py-16">
       <div className="container-x">
-        <SectionHeader
-          eyebrow="Capabilities"
-          title="A toolkit built for"
-          highlight="enterprise + AI"
-          description="Five categories, one stack: spatial systems, AI engineering, data, web GIS and the DevOps glue that ships them."
-        />
+        <div className="mb-6 flex items-center gap-2.5">
+          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-purple/10 text-brand-purple">
+            <Code2 className="h-4 w-4" />
+          </span>
+          <h2 className="font-display text-lg font-semibold text-ink sm:text-xl">
+            Skills & Proficiency
+          </h2>
+        </div>
 
-        <div ref={ref} className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {skills.map((cat, idx) => {
-            const Icon = iconMap[cat.icon as keyof typeof iconMap] ?? Globe2;
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {skillGroups.map((g, idx) => {
+            const Icon = iconFor[g.id] ?? Code2;
+            const tint = tintFor[g.id] ?? "#6366F1";
             return (
-              <motion.div
-                key={cat.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.55, delay: idx * 0.06 }}
-              >
-                <GlassCard accent={cat.accent} className="h-full">
-                  <div className="mb-5 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={cn(
-                          "grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.04]",
-                          accentClass[cat.accent],
-                        )}
-                      >
-                        <Icon className="h-5 w-5" />
-                      </span>
-                      <h3 className="font-display text-lg font-semibold text-ink">
-                        {cat.title}
-                      </h3>
-                    </div>
+              <Reveal key={g.id} delay={0.05 + idx * 0.06}>
+                <div className="card card-hover h-full p-5">
+                  <div className="flex items-center gap-2.5">
+                    <span
+                      className="grid h-9 w-9 place-items-center rounded-xl"
+                      style={{ background: `${tint}15`, color: tint }}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <h3 className="font-display text-[15px] font-semibold text-ink">
+                      {g.title}
+                    </h3>
                   </div>
-                  <ul className="grid gap-3">
-                    {cat.skills.map((s) => (
-                      <li
-                        key={s.name}
-                        className="flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-2.5"
+                  <ul className="mt-4 grid gap-2">
+                    {g.items.map((it, i) => (
+                      <motion.li
+                        key={it}
+                        initial={{ opacity: 0, x: -6 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-80px" }}
+                        transition={{ duration: 0.35, delay: 0.04 * i }}
+                        className="flex items-center justify-between gap-3 rounded-lg border border-line bg-bg px-3 py-2 text-sm text-ink"
                       >
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-sm text-ink">{s.name}</span>
-                          {s.highlight && (
-                            <span className="inline-flex w-max items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] px-1.5 py-[1px] text-[10px] uppercase tracking-wider text-ink-muted">
-                              core
-                            </span>
-                          )}
-                        </div>
-                        <ProgressRing value={s.level} accent={cat.accent} inView={inView} />
-                      </li>
+                        <span>{it}</span>
+                        <span
+                          className="grid h-5 w-5 place-items-center rounded-full text-[10px] font-semibold text-white"
+                          style={{ background: tint }}
+                        >
+                          ✓
+                        </span>
+                      </motion.li>
                     ))}
                   </ul>
-                </GlassCard>
-              </motion.div>
+                </div>
+              </Reveal>
             );
           })}
         </div>

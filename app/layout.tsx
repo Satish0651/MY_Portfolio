@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: `${profile.name} — ${profile.title}`,
     template: `%s · ${profile.name}`,
   },
-  description: profile.summary,
+  description: profile.heroDescription,
   keywords: [
     "Satish Kumar",
     "GIS Solutions Engineer",
@@ -33,20 +33,20 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: SITE_URL,
     title: `${profile.name} — ${profile.title}`,
-    description: profile.summary,
+    description: profile.heroDescription,
     siteName: `${profile.name} · Portfolio`,
   },
   twitter: {
     card: "summary_large_image",
     title: `${profile.name} — ${profile.title}`,
-    description: profile.summary,
+    description: profile.heroDescription,
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05060A",
-  colorScheme: "dark",
+  themeColor: "#0B1220",
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };

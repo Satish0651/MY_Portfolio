@@ -1,110 +1,106 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Check, Copy, Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Phone, ArrowRight } from "lucide-react";
 import { profile } from "@/lib/data";
-import { GradientText } from "../ui/GradientText";
-import { NeonButton } from "../ui/NeonButton";
+import { Reveal } from "../ui/Reveal";
 
 export function Contact() {
-  const [copied, setCopied] = useState(false);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(profile.email);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch {
-      // ignore
-    }
-  };
-
   return (
-    <section id="contact" className="relative pt-24 pb-32 sm:pt-28 sm:pb-40">
+    <section id="contact" className="relative py-16 sm:py-20">
       <div className="container-x">
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-bg-soft/60 px-6 py-14 sm:px-12 sm:py-20">
-          <div className="pointer-events-none absolute inset-0 -z-10 opacity-50">
-            <div className="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-neon-blue/20 blur-3xl" />
-            <div className="absolute -bottom-24 left-1/4 h-72 w-72 rounded-full bg-neon-purple/20 blur-3xl" />
-            <div className="absolute -bottom-32 right-1/4 h-72 w-72 rounded-full bg-neon-cyan/15 blur-3xl" />
+        <Reveal>
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-bg-navy p-8 text-ink-onDark sm:p-12">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(600px 300px at 20% 0%, rgba(124,58,237,0.35), transparent 60%), radial-gradient(700px 300px at 100% 100%, rgba(16,185,129,0.2), transparent 60%)",
+              }}
+            />
+            <div className="relative grid items-start gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+              <div>
+                <span className="eyebrow-light">Let's build something</span>
+                <h2 className="mt-3 font-display text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">
+                  Have a GIS, AI, or data project in mind?
+                </h2>
+                <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink-onDarkMuted">
+                  I work with product, platform and presales teams to turn
+                  location data into intelligent, production-grade solutions.
+                  Happy to chat about enterprise GIS, AI + RAG, or smart-city
+                  consulting.
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <a href={`mailto:${profile.email}`} className="btn-primary">
+                    Email Me <ArrowRight className="h-4 w-4" />
+                  </a>
+                  <a
+                    href={profile.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-ghost-dark"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                    LinkedIn
+                  </a>
+                  <a
+                    href={profile.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-ghost-dark"
+                  >
+                    <Github className="h-4 w-4" />
+                    GitHub
+                  </a>
+                </div>
+              </div>
+
+              <ul className="grid gap-2.5">
+                <ContactRow icon={<Mail className="h-4 w-4" />} label="Email" value={profile.email} href={`mailto:${profile.email}`} />
+                <ContactRow icon={<Phone className="h-4 w-4" />} label="Phone" value={profile.phone} href={`tel:${profile.phone.replace(/\s/g, "")}`} />
+                <ContactRow icon={<MapPin className="h-4 w-4" />} label="Location" value={profile.location} />
+              </ul>
+            </div>
           </div>
-
-          <motion.span
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="section-eyebrow mx-auto block w-max"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan shadow-[0_0_10px_rgba(34,211,238,0.9)]" />
-            Let's collaborate
-          </motion.span>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.05 }}
-            className="mx-auto mt-5 max-w-3xl text-center font-display text-3xl font-semibold leading-tight text-ink sm:text-5xl text-balance"
-          >
-            Let's build{" "}
-            <GradientText>intelligent geospatial</GradientText>{" "}
-            solutions.
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mx-auto mt-4 max-w-xl text-center text-ink-muted"
-          >
-            Open to enterprise GIS architecture roles, AI + GIS consulting, and presales engagements.
-            I usually reply within a day.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row"
-          >
-            <NeonButton
-              href={`mailto:${profile.email}?subject=Let%27s%20build%20something`}
-              variant="primary"
-              icon={<Mail className="h-4 w-4" />}
-            >
-              Email me
-            </NeonButton>
-            <NeonButton href={profile.linkedin} variant="ghost" icon={<Linkedin className="h-4 w-4" />}>
-              LinkedIn
-            </NeonButton>
-            <NeonButton href={profile.github} variant="ghost" icon={<Github className="h-4 w-4" />}>
-              GitHub
-            </NeonButton>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mx-auto mt-6 flex w-max items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-ink-muted"
-          >
-            <Mail className="h-3.5 w-3.5" />
-            <span className="font-mono text-ink">{profile.email}</span>
-            <button
-              onClick={copy}
-              aria-label="Copy email"
-              className="grid h-6 w-6 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-ink-muted hover:text-ink"
-            >
-              {copied ? <Check className="h-3 w-3 text-neon-cyan" /> : <Copy className="h-3 w-3" />}
-            </button>
-          </motion.div>
-        </div>
+        </Reveal>
       </div>
     </section>
+  );
+}
+
+function ContactRow({
+  icon,
+  label,
+  value,
+  href,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  href?: string;
+}) {
+  const inner = (
+    <span className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-colors hover:bg-white/[0.06]">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/[0.06] text-brand-cyan">
+        {icon}
+      </span>
+      <span className="flex-1">
+        <span className="block text-[11px] uppercase tracking-wider text-ink-onDarkMuted">
+          {label}
+        </span>
+        <span className="block text-sm font-medium text-white">{value}</span>
+      </span>
+    </span>
+  );
+  return (
+    <li>
+      {href ? (
+        <a href={href} className="block">
+          {inner}
+        </a>
+      ) : (
+        inner
+      )}
+    </li>
   );
 }

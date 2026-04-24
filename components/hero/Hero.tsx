@@ -1,101 +1,128 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import { ArrowDown, ArrowUpRight, Sparkles } from "lucide-react";
-import { profile } from "@/lib/data";
-import { GradientText } from "../ui/GradientText";
-import { NeonButton } from "../ui/NeonButton";
-import { TypingSubtext } from "./TypingSubtext";
-
-const Scene3D = dynamic(() => import("./Scene3D"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const headline = "Building Intelligent GIS Systems with AI";
+import { ArrowRight, Download, Mail, MapPin, Phone } from "lucide-react";
+import { profile, dashboardStats } from "@/lib/data";
+import { IndiaMap } from "./IndiaMap";
+import { StatTile } from "./StatTile";
+import { DonutChart } from "./DonutChart";
+import { GrowthChart } from "./GrowthChart";
 
 export function Hero() {
   return (
     <section
-      id="hero"
-      className="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden pt-24"
+      id="home"
+      className="relative isolate overflow-hidden bg-bg-navy pt-28 pb-16 text-ink-onDark sm:pt-32 sm:pb-20"
     >
-      <div className="absolute inset-0 -z-10 bg-radial-fade" />
-      <div className="pointer-events-none absolute inset-0 -z-10 mask-fade-y opacity-[0.35]">
-        <div className="absolute inset-0 bg-grid-faint bg-grid-32" />
-      </div>
-      <div className="absolute inset-0 -z-10 mask-fade-edges">
-        <Scene3D />
+      <div className="absolute inset-0 -z-10 bg-hero-gradient" />
+      <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)]">
+        <div
+          className="h-full w-full bg-grid-dark bg-grid-32"
+          aria-hidden
+        />
       </div>
 
-      <div className="container-x flex flex-1 flex-col items-center justify-center gap-8 py-12 text-center">
-        <motion.span
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="section-eyebrow"
-        >
-          <Sparkles className="h-3.5 w-3.5 text-neon-cyan" />
-          AI-native GIS Solutions Engineer · {profile.location}
-        </motion.span>
-
-        <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-6xl md:text-7xl text-balance">
-          {headline.split(" ").map((w, i) => (
+      <div className="container-x">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.15fr)] xl:gap-14">
+          <div className="max-w-2xl">
             <motion.span
-              key={`${w}-${i}`}
-              initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, delay: 0.05 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-block whitespace-pre"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs font-medium text-ink-onDark"
             >
-              {w === "AI" ? <GradientText>{w}</GradientText> : w}
-              {i < headline.split(" ").length - 1 ? " " : ""}
+              <span className="text-sm" aria-hidden>
+                👋
+              </span>
+              Hello, I'm Satish Kumar
             </motion.span>
-          ))}
-        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="max-w-2xl text-base text-ink-muted sm:text-lg"
-        >
-          <TypingSubtext phrases={profile.rotatingRoles} />
-          <span className="block mt-2 text-sm text-ink-dim">
-            8+ years across telecom, smart cities & defense — turning location data into business decisions.
-          </span>
-        </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.05 }}
+              className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[56px]"
+            >
+              <span className="block text-balance">{profile.heroHeadline.before}</span>
+              <span className="mt-1 block">
+                <span className="text-brand-emerald">{profile.heroHeadline.accent}</span>
+              </span>
+            </motion.h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="flex flex-wrap items-center justify-center gap-3 pt-2"
-        >
-          <NeonButton href="#projects" variant="primary" icon={<ArrowUpRight className="h-4 w-4" />}>
-            View Work
-          </NeonButton>
-          <NeonButton href="#contact" variant="ghost">
-            Contact Me
-          </NeonButton>
-        </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="mt-5 max-w-xl text-[15px] leading-relaxed text-ink-onDarkMuted"
+            >
+              {profile.heroDescription}
+            </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <a
-            href="#about"
-            className="flex flex-col items-center gap-2 text-xs text-ink-dim hover:text-ink transition-colors"
-            aria-label="Scroll down"
-          >
-            <span className="font-mono uppercase tracking-[0.3em]">Scroll</span>
-            <ArrowDown className="h-4 w-4 animate-pulse-soft" />
-          </a>
-        </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.25 }}
+              className="mt-7 flex flex-wrap items-center gap-3"
+            >
+              <a href="#projects" className="btn-primary">
+                Explore My Work <ArrowRight className="h-4 w-4" />
+              </a>
+              <a href={profile.cvUrl} download className="btn-ghost-dark">
+                Download CV <Download className="h-4 w-4" />
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.35 }}
+              className="mt-6 flex flex-wrap items-center gap-2.5 text-sm text-ink-onDarkMuted"
+            >
+              <a className="chip-dark" href="#contact">
+                <MapPin className="h-3.5 w-3.5" />
+                {profile.location}
+              </a>
+              <a className="chip-dark" href={`mailto:${profile.email}`}>
+                <Mail className="h-3.5 w-3.5" />
+                {profile.email}
+              </a>
+              <a className="chip-dark" href={`tel:${profile.phone.replace(/\s/g, "")}`}>
+                <Phone className="h-3.5 w-3.5" />
+                {profile.phone}
+              </a>
+            </motion.div>
+          </div>
+
+          <div className="relative">
+            <div className="grid gap-3 sm:grid-cols-[1fr_240px]">
+              <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-3 backdrop-blur-xl">
+                <div className="relative aspect-[6/5.2] w-full">
+                  <IndiaMap />
+                </div>
+                <div className="pointer-events-none absolute left-4 top-4 flex flex-col gap-2 w-[156px]">
+                  <StatTile
+                    label="Total Sites"
+                    value={dashboardStats.totalSites.toLocaleString()}
+                    delta={dashboardStats.totalSitesDelta}
+                    className="bg-bg-navy-elev/90"
+                    delay={0.2}
+                  />
+                  <StatTile
+                    label="Fiber Coverage (km)"
+                    value={dashboardStats.fiberCoverage.toLocaleString()}
+                    delta={dashboardStats.fiberDelta}
+                    className="bg-bg-navy-elev/90"
+                    delay={0.3}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <DonutChart />
+                <GrowthChart />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
