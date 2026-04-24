@@ -3,6 +3,7 @@ import { profile } from "@/lib/data";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ChatWidget } from "@/components/chatbot/ChatWidget";
 import "./globals.css";
 
 const SITE_URL = "https://my-portfolio-satish0651.vercel.app";
@@ -91,6 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main className="relative">{children}</main>
         <Footer />
+        <ChatWidget />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

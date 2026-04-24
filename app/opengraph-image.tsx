@@ -89,7 +89,7 @@ export default async function OG() {
           }}
         >
           <span>{profile.email}</span>
-          <span>linkedin.com/in/satishkumar-1a01b3a5</span>
+          <span>linkedin.com/in/satish-kumar-profile</span>
         </div>
       </div>
     ),
